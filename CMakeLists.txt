@@ -7,4 +7,6 @@ add_executable(CodeNexus_RailwaySystem
         main.cpp
         lines.cpp
         railwaySystem.cpp
+        lines1.h
+        main1.cpp
 )
