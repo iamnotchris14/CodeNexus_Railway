@@ -197,4 +197,40 @@ void findShortestPath(Station* source, Station* destination) {
     cout << "\nTotal estimated time: " << pathInfo[destIndex].distance << " minutes\n";
 }
 
+void dfsAllPathsArray(Station* current, Station* destination, bool visited[], Station* path[], int pathLen, int totalTime) {
+    if (current == destination) {
+        // Print the path
+        for (int i = 0; i < pathLen; i++) {
+            cout << path[i]->name;
+            if (i < pathLen - 1) cout << " -> ";
+        }
+        cout << "\nTotal estimated time: " << totalTime << " minutes\n\n";
+        return;
+    }
+
+    int currentIndex = getStationIndex(current);
+    visited[currentIndex] = true;
+
+    Edge* edge = current->ed;
+    while (edge != nullptr) {
+        int neighborIndex = getStationIndex(edge->to);
+        if (!visited[neighborIndex]) {
+            path[pathLen] = edge->to;
+            dfsAllPathsArray(edge->to, destination, visited, path, pathLen + 1, totalTime + edge->weight);
+        }
+        edge = edge->nxtE;
+    }
+
+    visited[currentIndex] = false; // Backtrack
+}
+void findAllPathsArray(Station* source, Station* destination) {
+    bool visited[12] = {false};
+    Station* path[12];
+    path[0] = source;
+
+    cout << "\nAll possible paths from " << source->name << " to " << destination->name << ":\n";
+    dfsAllPathsArray(source, destination, visited, path, 1, 0);
+}
+
+
 #endif //LINES1_H
